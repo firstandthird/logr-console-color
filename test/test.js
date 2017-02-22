@@ -1,9 +1,11 @@
 const Logr = require('logr');
 
-const log = new Logr({
+const log = Logr.createLogger({
   type: 'consoleColor',
   reporters: {
-    consoleColor: require('../')
+    consoleColor: {
+      reporter: require('../')
+    }
   }
 });
 
@@ -27,15 +29,14 @@ log(['obj'], {
   }
 });
 
-const logNoTimestamp = new Logr({
-  type: 'consoleColor',
-  renderOptions: {
-    consoleColor: {
-      timestamp: false
-    }
-  },
+const logNoTimestamp = Logr.createLogger({
   reporters: {
-    consoleColor: require('../')
+    consoleColor: {
+      reporter: require('../'),
+      options: {
+        timestamp: false
+      }
+    }
   }
 });
 

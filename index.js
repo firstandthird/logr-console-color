@@ -5,7 +5,7 @@ const timeStamp = require('time-stamp');
 const colors = require('chalk');
 const aug = require('aug');
 
-const defaults = {
+exports.defaults = {
   timestamp: 'HH:mm:ss',
   bell: ['error'],
   colors: {
@@ -16,8 +16,7 @@ const defaults = {
   }
 };
 
-module.exports = function(opt, tags, message) {
-  const options = aug('defaults', defaults, opt);
+exports.log = function(options, tags, message) {
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
   if (typeof message === 'object') {
