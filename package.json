@@ -4,7 +4,8 @@
   "description": "Logr renderer with colored console output",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "npm run lint && node test/test.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

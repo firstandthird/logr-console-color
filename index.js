@@ -3,7 +3,6 @@ const intersection = require('lodash.intersection');
 const formatObj = require('fmt-obj');
 const timeStamp = require('time-stamp');
 const colors = require('chalk');
-const aug = require('aug');
 
 exports.defaults = {
   timestamp: 'HH:mm:ss',
