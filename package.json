@@ -1,6 +1,6 @@
 {
   "name": "logr-console-color",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Logr renderer with colored console output",
   "main": "index.js",
   "scripts": {
