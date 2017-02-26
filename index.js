@@ -1,12 +1,10 @@
 'use strict';
-const intersection = require('lodash.intersection');
 const formatObj = require('fmt-obj');
 const timeStamp = require('time-stamp');
 const colors = require('chalk');
 
 exports.defaults = {
   timestamp: 'HH:mm:ss',
-  bell: ['error'],
   colors: {
     error: 'red',
     warning: 'yellow',
@@ -28,10 +26,6 @@ exports.log = function(options, tags, message) {
     };
     const indent = (options.timestamp) ? 9 : 2;
     message = formatObj(message, Infinity, formatter, indent);
-  }
-
-  if (options.bell && (intersection(options.bell, tags).length > 0)) {
-    message += '\u0007';
   }
 
   tags.forEach((tag, i) => {

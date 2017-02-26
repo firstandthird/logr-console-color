@@ -26,7 +26,6 @@
   "dependencies": {
     "chalk": "1.1.3",
     "fmt-obj": "1.2.0",
-    "lodash.intersection": "4.4.0",
     "time-stamp": "1.0.1"
   },
   "devDependencies": {
