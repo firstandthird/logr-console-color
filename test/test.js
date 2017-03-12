@@ -49,3 +49,17 @@ logNoTimestamp(['obj'], {
     last: 'Smith'
   }
 });
+
+const logNoColor = Logr.createLogger({
+  reporters: {
+    consoleColor: {
+      reporter: require('../'),
+      options: {
+        colors: false
+      }
+    }
+  }
+});
+logNoColor(['error'], {
+  message: 'test'
+});

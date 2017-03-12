@@ -1,7 +1,7 @@
 'use strict';
 const formatObj = require('fmt-obj');
 const timeStamp = require('time-stamp');
-const colors = require('chalk');
+const chalk = require('chalk');
 
 exports.defaults = {
   timestamp: 'HH:mm:ss',
@@ -14,6 +14,7 @@ exports.defaults = {
 };
 
 exports.log = function(options, tags, message) {
+  const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
   if (typeof message === 'object') {
