@@ -21,6 +21,7 @@ exports.log = function(options, tags, message) {
     const formatter = {
       property: colors.bold,
       punctuation: colors.cyan,
+      annotation: colors.red,
       literal: colors.blue,
       number: colors.yellow,
       string: colors.green
