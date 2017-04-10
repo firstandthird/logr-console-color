@@ -63,3 +63,21 @@ const logNoColor = Logr.createLogger({
 logNoColor(['error'], {
   message: 'test'
 });
+
+const logWithApp = Logr.createLogger({
+  type: 'consoleColor',
+  reporters: {
+    consoleColor: {
+      reporter: require('../'),
+      options: {
+        appColor: true
+      }
+    }
+  }
+});
+
+logWithApp('message without tags');
+logWithApp(['app1', 'debug'], 'message with tag');
+logWithApp(['app1', 'warning'], 'message with warning tag');
+logWithApp(['app2', 'notice'], 'message with notice tag');
+logWithApp(['app3', 'success'], 'message with success tag');
