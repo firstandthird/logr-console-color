@@ -45,7 +45,7 @@ exports.log = function(options, tags, message) {
     try {
       message = format(message);
     } catch (e) {
-      console.log('[error, fmt-obj]', e);
+      console.log('[error, fmt-obj]', e); // eslint-disable-line no-console
       message = JSON.stringify(message);
     }
   }
