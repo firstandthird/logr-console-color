@@ -1,5 +1,5 @@
 'use strict';
-const formatObj = require('fmt-obj');
+const { createFormatter } = require('fmt-obj');
 const timeStamp = require('time-stamp');
 const chalk = require('chalk');
 
@@ -30,16 +30,23 @@ exports.log = function(options, tags, message) {
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
   if (typeof message === 'object') {
-    const formatter = {
-      property: colors.bold,
-      punctuation: colors.cyan,
-      annotation: colors.red,
-      literal: colors.blue,
-      number: colors.yellow,
-      string: colors.green
-    };
     const indent = (options.timestamp) ? 9 : 2;
-    message = formatObj(message, Infinity, formatter, indent);
+    const format = createFormatter({
+      offset: indent,
+      formatter: {
+        property: colors.bold,
+        punctuation: colors.cyan,
+        annotation: colors.red,
+        literal: colors.blue,
+        number: colors.yellow,
+        string: colors.green
+      }
+    });
+    try {
+      message = format(message);
+    } catch (e) {
+      message = JSON.stringify(message);
+    }
   }
 
   tags.forEach((tag, i) => {
