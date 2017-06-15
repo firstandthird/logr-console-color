@@ -45,6 +45,7 @@ exports.log = function(options, tags, message) {
     try {
       message = format(message);
     } catch (e) {
+      console.log('[error, fmt-obj]', e);
       message = JSON.stringify(message);
     }
   }
