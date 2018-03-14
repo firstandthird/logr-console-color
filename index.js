@@ -35,7 +35,6 @@ exports.log = function(options, tags, message) {
       message = prettyFormat(message, {
         indent,
         highlight: true,
-        callToJSON: true,
         theme: {
           prop: 'bold',
           comment: 'red',
