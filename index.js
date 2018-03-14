@@ -25,6 +25,20 @@ const availableColors = [
 ];
 let lastColorIndex = 0;
 
+const isKey = (obj, key) => {
+  const keys = Object.keys(obj);
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i] === key) {
+      return true;
+    }
+    const val = obj[keys[i]];
+    if (typeof val === 'object' && !Array.isArray(val)) {
+      return isKey(val, key);
+    }
+  }
+  return false;
+};
+
 exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
@@ -35,24 +49,27 @@ exports.log = function(options, tags, message) {
       message = prettyFormat(message, {
         indent,
         highlight: true,
-        theme: {
-          prop: 'bold',
-          comment: 'red',
-          value: 'blue',
-        },
         plugins: [
+          // booleans are cyan:
           {
-            test: (val) => isNaN(val) && typeof val === 'string',
-            serialize(val) {
-              return chalk.green(`"${val}"`);
-            }
+            test: val => typeof val === 'boolean',
+            serialize: (val) => chalk.cyan(val)
           },
+          // numbers are yellow:
           {
-            test: (val) => !isNaN(val),
-            serialize(val) {
-              return chalk.yellow(+val);
-            }
-          }
+            test: val => typeof val === 'number',
+            serialize: (val) => chalk.yellow(val)
+          },
+          // strings are green:
+          {
+            test: (val) => !isKey(message, val) && typeof val === 'string',
+            serialize: (val) => chalk.green(`"${val}"`)
+          },
+          // object property fields are white and bold-face:
+          {
+            test: val => isKey(message, val),
+            serialize: (val) => chalk.white.bold(val)
+          },
         ]
       });
     } catch (e) {
