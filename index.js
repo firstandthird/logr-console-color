@@ -1,5 +1,5 @@
 'use strict';
-const { createFormatter } = require('fmt-obj');
+const prettyFormat = require('pretty-format');
 const timeStamp = require('time-stamp');
 const chalk = require('chalk');
 
@@ -31,21 +31,33 @@ exports.log = function(options, tags, message) {
 
   if (typeof message === 'object') {
     const indent = (options.timestamp) ? 9 : 2;
-    const format = createFormatter({
-      offset: indent,
-      formatter: {
-        property: colors.bold,
-        punctuation: colors.cyan,
-        annotation: colors.red,
-        literal: colors.blue,
-        number: colors.yellow,
-        string: colors.green
-      }
-    });
     try {
-      message = format(message);
+      message = prettyFormat(message, {
+        indent,
+        highlight: true,
+        callToJSON: true,
+        theme: {
+          prop: 'bold',
+          comment: 'red',
+          value: 'blue',
+        },
+        plugins: [
+          {
+            test: (val) => isNaN(val) && typeof val === 'string',
+            serialize(val) {
+              return chalk.green(`"${val}"`);
+            }
+          },
+          {
+            test: (val) => !isNaN(val),
+            serialize(val) {
+              return chalk.yellow(+val);
+            }
+          }
+        ]
+      });
     } catch (e) {
-      console.log('[error, fmt-obj]', e); // eslint-disable-line no-console
+      console.log('[error, pretty-format]', e); // eslint-disable-line no-console
       message = JSON.stringify(message);
     }
   }
