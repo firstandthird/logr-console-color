@@ -1,5 +1,5 @@
 'use strict';
-const { createFormatter } = require('fmt-obj');
+const prettyFormat = require('pretty-format');
 const timeStamp = require('time-stamp');
 const chalk = require('chalk');
 
@@ -25,27 +25,55 @@ const availableColors = [
 ];
 let lastColorIndex = 0;
 
+const isKey = (obj, key) => {
+  const keys = Object.keys(obj);
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i] === key) {
+      return true;
+    }
+    const val = obj[keys[i]];
+    if (typeof val === 'object' && !Array.isArray(val)) {
+      return isKey(val, key);
+    }
+  }
+  return false;
+};
+
 exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
   if (typeof message === 'object') {
     const indent = (options.timestamp) ? 9 : 2;
-    const format = createFormatter({
-      offset: indent,
-      formatter: {
-        property: colors.bold,
-        punctuation: colors.cyan,
-        annotation: colors.red,
-        literal: colors.blue,
-        number: colors.yellow,
-        string: colors.green
-      }
-    });
     try {
-      message = format(message);
+      message = prettyFormat(message, {
+        indent,
+        highlight: true,
+        plugins: [
+          // booleans are cyan:
+          {
+            test: val => typeof val === 'boolean',
+            serialize: (val) => chalk.cyan(val)
+          },
+          // numbers are yellow:
+          {
+            test: val => typeof val === 'number',
+            serialize: (val) => chalk.yellow(val)
+          },
+          // strings are green:
+          {
+            test: (val) => !isKey(message, val) && typeof val === 'string',
+            serialize: (val) => chalk.green(`"${val}"`)
+          },
+          // object property fields are white and bold-face:
+          {
+            test: val => isKey(message, val),
+            serialize: (val) => chalk.white.bold(val)
+          },
+        ]
+      });
     } catch (e) {
-      console.log('[error, fmt-obj]', e); // eslint-disable-line no-console
+      console.log('[error, pretty-format]', e); // eslint-disable-line no-console
       message = JSON.stringify(message);
     }
   }

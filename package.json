@@ -25,7 +25,7 @@
   "homepage": "https://github.com/firstandthird/logr-console-color#readme",
   "dependencies": {
     "chalk": "1.1.3",
-    "fmt-obj": "^2.0.0",
+    "pretty-format": "^22.4.0",
     "time-stamp": "1.0.1"
   },
   "devDependencies": {

@@ -22,6 +22,7 @@ log(['obj'], {
 log(['obj'], {
   message: 'simple object',
   user: '123',
+  userNumber: 123,
   isAdmin: true,
   name: {
     first: 'James',
