@@ -45,7 +45,6 @@ exports.log = function(options, tags, text) {
     let message;
     try {
       if (text.message) {
-        // todo ???????
         message = text.message;
         delete text.message;
       }
