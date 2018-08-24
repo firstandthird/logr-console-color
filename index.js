@@ -25,11 +25,11 @@ const availableColors = [
 ];
 let lastColorIndex = 0;
 
-exports.log = function(options, tags, message) {
+exports.log = function(options, tags, text) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
-  if (typeof message === 'object') {
+  if (typeof text === 'object') {
     const indent = (options.timestamp) ? 9 : 2;
     const format = createFormatter({
       offset: indent,
@@ -42,11 +42,20 @@ exports.log = function(options, tags, message) {
         string: colors.green
       }
     });
+    let message;
     try {
-      message = format(message);
+      if (text.message) {
+        // todo ???????
+        message = text.message;
+        delete text.message;
+      }
+      text = format(text);
     } catch (e) {
       console.log('[error, fmt-obj]', e); // eslint-disable-line no-console
-      message = JSON.stringify(message);
+      text = JSON.stringify(text);
+    }
+    if (message) {
+      text = `${message}${text}`;
     }
   }
 
@@ -71,6 +80,6 @@ exports.log = function(options, tags, message) {
     }
     return `${colors.gray('[')}${localTags.join(colors.gray(','))}${colors.gray(']')} `;
   };
-  const out = `${ts}${renderTags(tags)}${message}`;
+  const out = `${ts}${renderTags(tags)}${text}`;
   return out;
 };
