@@ -9,18 +9,30 @@ const log = Logr.createLogger({
   }
 });
 
-log('message without tags');
-log(['debug'], 'message with tag');
-log(['warning'], 'message with warning tag');
-log(['notice'], 'message with notice tag');
-log(['success'], 'message with success tag');
-log(['error', 'blah'], 'message with error tag');
+log('text without tags');
+log(['debug'], 'text with tag');
+log(['warning'], 'text with warning tag');
+log(['notice'], 'text with notice tag');
+log(['success'], 'text with success tag');
+log(['error', 'blah'], 'text with error tag');
 log(['obj'], {
-  message: 'simple object'
+  text: 'simple object'
 });
 
 log(['obj'], {
-  message: 'simple object',
+  text: 'simple object',
+  user: '123',
+  isAdmin: true,
+  name: {
+    first: 'James',
+    last: 'Smith'
+  }
+});
+
+
+log(['obj'], {
+  message: 'the message should be first and removed as a field from the obj',
+  text: 'simple object',
   user: '123',
   isAdmin: true,
   name: {
@@ -41,7 +53,7 @@ const logNoTimestamp = Logr.createLogger({
 });
 
 logNoTimestamp(['obj'], {
-  message: 'simple object',
+  text: 'simple object',
   user: '123',
   isAdmin: true,
   name: {
@@ -61,7 +73,7 @@ const logNoColor = Logr.createLogger({
   }
 });
 logNoColor(['error'], {
-  message: 'test'
+  text: 'test'
 });
 
 const logWithApp = Logr.createLogger({
@@ -76,8 +88,8 @@ const logWithApp = Logr.createLogger({
   }
 });
 
-logWithApp('message without tags');
-logWithApp(['app1', 'debug'], 'message with tag');
-logWithApp(['app1', 'warning'], 'message with warning tag');
-logWithApp(['app2', 'notice'], 'message with notice tag');
-logWithApp(['app3', 'success'], 'message with success tag');
+logWithApp('text without tags');
+logWithApp(['app1', 'debug'], 'text with tag');
+logWithApp(['app1', 'warning'], 'text with warning tag');
+logWithApp(['app2', 'notice'], 'text with notice tag');
+logWithApp(['app3', 'success'], 'text with success tag');
