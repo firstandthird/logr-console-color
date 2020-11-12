@@ -1,4 +1,3 @@
-'use strict';
 const { createFormatter } = require('fmt-obj');
 const timeStamp = require('time-stamp');
 const chalk = require('chalk');
@@ -26,7 +25,7 @@ const availableColors = [
 let lastColorIndex = 0;
 
 exports.log = function(options, tags, text) {
-  const colors = new chalk.constructor({ enabled: (options.colors !== false) });
+  const colors = chalk;
   const ts = (options.timestamp) ? `${colors.gray(timeStamp(options.timestamp))} ` : '';
 
   if (typeof text === 'object') {

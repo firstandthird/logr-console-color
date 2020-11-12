@@ -4,7 +4,7 @@ const log = Logr.createLogger({
   type: 'consoleColor',
   reporters: {
     consoleColor: {
-      reporter: require('../')
+      reporter: require('..')
     }
   }
 });
@@ -44,7 +44,7 @@ log(['obj'], {
 const logNoTimestamp = Logr.createLogger({
   reporters: {
     consoleColor: {
-      reporter: require('../'),
+      reporter: require('..'),
       options: {
         timestamp: false
       }
@@ -65,7 +65,7 @@ logNoTimestamp(['obj'], {
 const logNoColor = Logr.createLogger({
   reporters: {
     consoleColor: {
-      reporter: require('../'),
+      reporter: require('..'),
       options: {
         colors: false
       }
@@ -80,7 +80,7 @@ const logWithApp = Logr.createLogger({
   type: 'consoleColor',
   reporters: {
     consoleColor: {
-      reporter: require('../'),
+      reporter: require('..'),
       options: {
         appColor: true
       }
